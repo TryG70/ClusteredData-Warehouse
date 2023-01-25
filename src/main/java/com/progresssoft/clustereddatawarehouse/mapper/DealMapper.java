@@ -2,14 +2,12 @@ package com.progresssoft.clustereddatawarehouse.mapper;
 
 import com.progresssoft.clustereddatawarehouse.dto.DealDto;
 import com.progresssoft.clustereddatawarehouse.entity.Deal;
-import org.springframework.stereotype.Service;
 
 import java.util.Currency;
 
-@Service
 public class DealMapper {
 
-    public DealDto dealToDealDtoMapper(Deal deal) {
+    public static DealDto dealToDealDtoMapper(Deal deal) {
 
         return DealDto.builder()
                 .dealUniqueId(deal.getDealUniqueId())
@@ -19,7 +17,7 @@ public class DealMapper {
                 .build();
     }
 
-    public Deal dealDtoToDealMapper(DealDto dealDto) {
+    public static Deal dealDtoToDealMapper(DealDto dealDto) {
 
         return Deal.builder()
                 .dealUniqueId(dealDto.getDealUniqueId())
