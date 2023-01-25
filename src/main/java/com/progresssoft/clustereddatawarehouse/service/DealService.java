@@ -1,8 +1,9 @@
 package com.progresssoft.clustereddatawarehouse.service;
 
 import com.progresssoft.clustereddatawarehouse.dto.DealDto;
+import com.progresssoft.clustereddatawarehouse.response.APIResponse;
 
 public interface DealService {
 
-    DealDto saveFXDeal(DealDto dealDTO);
+    APIResponse<?> saveFXDeal(DealDto dealDTO);
 }
