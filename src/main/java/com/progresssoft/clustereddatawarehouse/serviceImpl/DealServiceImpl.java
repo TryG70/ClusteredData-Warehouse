@@ -3,6 +3,7 @@ package com.progresssoft.clustereddatawarehouse.serviceImpl;
 import com.progresssoft.clustereddatawarehouse.dto.DealDto;
 import com.progresssoft.clustereddatawarehouse.entity.Deal;
 import com.progresssoft.clustereddatawarehouse.exception.DealAlreadyExistsException;
+import com.progresssoft.clustereddatawarehouse.exception.SameISOCodeException;
 import com.progresssoft.clustereddatawarehouse.mapper.DealMapper;
 import com.progresssoft.clustereddatawarehouse.repository.DealRepository;
 import com.progresssoft.clustereddatawarehouse.response.APIResponse;
@@ -28,21 +29,27 @@ public class DealServiceImpl implements DealService {
     @Override
     public APIResponse<?> saveFXDeal(DealDto dealDTO) {
 
-        Optional<Deal> optionalDeal = dealRepository.findByDealUniqueId(dealDTO.getDealUniqueId());
+        if (!dealDTO.getToCurrencyISOCode().equals(dealDTO.getFromCurrencyISOCode())) {
 
-        if(optionalDeal.isEmpty()) {
+            Optional<Deal> optionalDeal = dealRepository.findByDealUniqueId(dealDTO.getDealUniqueId());
 
-            Deal deal = DealMapper.dealDtoToDealMapper(dealDTO);
-            Deal savedDeal = dealRepository.save(deal);
+            if(optionalDeal.isEmpty()) {
 
-             return APIResponse.<DealDto>builder()
-                    .message("Drone registration successful")
-                    .time(LocalDateTime.now())
-                    .dto(DealMapper.dealToDealDtoMapper(savedDeal))
-                    .build();
+                Deal deal = DealMapper.dealDtoToDealMapper(dealDTO);
+                Deal savedDeal = dealRepository.save(deal);
+
+                return APIResponse.<DealDto>builder()
+                        .message("Drone registration successful")
+                        .time(LocalDateTime.now())
+                        .dto(DealMapper.dealToDealDtoMapper(savedDeal))
+                        .build();
+
+            } else {
+                throw new DealAlreadyExistsException("Deal with dealUniqueId: " + dealDTO.getDealUniqueId() + " already exists");
+            }
 
         } else {
-            throw new DealAlreadyExistsException("Deal with dealUniqueId: " + dealDTO.getDealUniqueId() + " already exists");
+            throw new SameISOCodeException("From and To currency codes should not be the same");
         }
     }
 }
