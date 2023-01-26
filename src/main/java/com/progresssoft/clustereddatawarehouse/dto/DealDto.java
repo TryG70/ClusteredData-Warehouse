@@ -2,13 +2,13 @@ package com.progresssoft.clustereddatawarehouse.dto;
 
 
 
+import com.progresssoft.clustereddatawarehouse.validator.ValidCurrencyCode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.*;
-import org.hibernate.validator.constraints.Currency;
+import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 
@@ -24,12 +24,12 @@ public class DealDto {
 
 
     @NotNull(message = "From Currency is required")
-    @Currency(value = "ISO4217", message = "Invalid currency code")
+    @ValidCurrencyCode(message = "Invalid From Currency ISO Code")
     private String fromCurrencyISOCode;
 
 
     @NotNull(message = "To Currency is required")
-    @Currency(value = "ISO4217", message = "Invalid currency code")
+    @ValidCurrencyCode(message = "Invalid To Currency ISO Code")
     private String toCurrencyISOCode;
 
 
