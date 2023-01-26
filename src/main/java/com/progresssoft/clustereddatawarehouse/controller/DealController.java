@@ -1,6 +1,7 @@
 package com.progresssoft.clustereddatawarehouse.controller;
 
 import com.progresssoft.clustereddatawarehouse.dto.DealDto;
+import com.progresssoft.clustereddatawarehouse.response.APIResponse;
 import com.progresssoft.clustereddatawarehouse.service.DealService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -31,7 +34,11 @@ public class DealController {
     public ResponseEntity<?> register(@Valid @RequestBody DealDto dealDto, Errors error) {
         if(error.hasErrors()){
             log.error("Error while saving deal: {}", Objects.requireNonNull(error.getFieldError()).getDefaultMessage());
-            return new ResponseEntity<>(Objects.requireNonNull(error.getFieldError()).getDefaultMessage(), BAD_REQUEST);
+            return new ResponseEntity<>((APIResponse.<List<String>>builder()
+                            .message("Error while saving deal")
+                            .time(LocalDateTime.now())
+                            .dto(error.getFieldErrors().stream().map(e -> e.getDefaultMessage()).toList())
+                    .build()), BAD_REQUEST);
         }
 
         log.info("DealController.register() dealDto: {}", dealDto);
