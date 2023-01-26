@@ -1,4 +1,4 @@
-package com.progresssoft.clustereddatawarehouse.exception;
+package com.progresssoft.clustereddatawarehouse.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
