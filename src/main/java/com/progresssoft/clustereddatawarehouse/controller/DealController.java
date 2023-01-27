@@ -31,7 +31,7 @@ public class DealController {
     private final DealService dealService;
 
     @PostMapping(value = "/save")
-    public ResponseEntity<?> register(@Valid @RequestBody DealDto dealDto, Errors error) {
+    public ResponseEntity<?> saveDeal(@Valid @RequestBody DealDto dealDto, Errors error) {
         if(error.hasErrors()){
             log.error("Error while saving deal: {}", Objects.requireNonNull(error.getFieldError()).getDefaultMessage());
             return new ResponseEntity<>((APIResponse.<List<String>>builder()
