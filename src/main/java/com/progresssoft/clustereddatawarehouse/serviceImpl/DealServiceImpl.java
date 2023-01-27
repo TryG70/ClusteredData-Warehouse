@@ -27,7 +27,7 @@ public class DealServiceImpl implements DealService {
 
 
     @Override
-    public APIResponse<?> saveFXDeal(DealDto dealDTO) {
+    public APIResponse<DealDto> saveFXDeal(DealDto dealDTO) {
 
         if (!dealDTO.getToCurrencyISOCode().equals(dealDTO.getFromCurrencyISOCode())) {
 
@@ -39,7 +39,7 @@ public class DealServiceImpl implements DealService {
                 Deal savedDeal = dealRepository.save(deal);
 
                 return APIResponse.<DealDto>builder()
-                        .message("Drone registration successful")
+                        .message("FX Deal saved successfully")
                         .time(LocalDateTime.now())
                         .dto(DealMapper.dealToDealDtoMapper(savedDeal))
                         .build();
