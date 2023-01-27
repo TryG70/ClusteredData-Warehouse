@@ -19,22 +19,22 @@ import java.math.BigDecimal;
 public class DealDto {
 
 
-    @NotNull(message = "Deal Id is required")
+    @NotBlank(message = "Deal Id is required")
     private String dealUniqueId;
 
 
-    @NotNull(message = "From Currency is required")
+    @NotBlank(message = "From Currency is required")
     @ValidCurrencyCode(message = "Invalid From Currency ISO Code")
     private String fromCurrencyISOCode;
 
 
-    @NotNull(message = "To Currency is required")
+    @NotBlank(message = "To Currency is required")
     @ValidCurrencyCode(message = "Invalid To Currency ISO Code")
     private String toCurrencyISOCode;
 
 
     @NotNull(message = "Deal Amount is required")
-    @Min(value = 10, message = "Deal Amount can not be less than 0")
+    @Min(value = 10, message = "Deal Amount can not be less than 10")
     private BigDecimal dealAmount;
 
 }
