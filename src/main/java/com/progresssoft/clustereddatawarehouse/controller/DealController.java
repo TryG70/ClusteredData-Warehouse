@@ -42,7 +42,7 @@ public class DealController {
     }
 
     @GetMapping(value = "/retrieve/{fxDealId}")
-    public ResponseEntity<?> retrieveDeals(@PathVariable String fxDealId) {
+    public ResponseEntity<?> retrieveFxDeal(@PathVariable String fxDealId) {
         log.info("DealController.retrieveDeals() fxDealId: {}", fxDealId);
         return new ResponseEntity<>(dealService.retrieveFXDeal(fxDealId), FOUND);
     }
