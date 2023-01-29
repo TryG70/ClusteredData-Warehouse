@@ -31,7 +31,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     @ExceptionHandler(FxDealNotFoundException.class)
     public ResponseEntity<Object> fxDealNotFoundException(FxDealNotFoundException exception) {
 
-        ExceptionResponse exceptionResponse = new ExceptionResponse(exception.getMessage(), BAD_REQUEST);
+        ExceptionResponse exceptionResponse = new ExceptionResponse(exception.getMessage(), NOT_FOUND);
         return new ResponseEntity<>(exceptionResponse,NOT_FOUND);
     }
 }
