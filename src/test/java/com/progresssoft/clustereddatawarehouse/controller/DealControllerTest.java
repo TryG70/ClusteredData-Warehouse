@@ -121,7 +121,7 @@ class DealControllerTest {
     }
 
     @Test
-    void testRetrieveDeals() throws Exception {
+    void testRetrieveFxDeal() throws Exception {
 
         DealDto dealDto = new DealDto(" ","USD", "EUR", BigDecimal.valueOf(50.0));
 
