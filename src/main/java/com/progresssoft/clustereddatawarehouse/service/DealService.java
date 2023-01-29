@@ -6,4 +6,5 @@ import com.progresssoft.clustereddatawarehouse.response.APIResponse;
 public interface DealService {
 
     APIResponse<?> saveFXDeal(DealDto dealDTO);
+    APIResponse<?> retrieveFXDeal(String fxDealId);
 }

@@ -3,6 +3,7 @@ package com.progresssoft.clustereddatawarehouse.serviceImpl;
 import com.progresssoft.clustereddatawarehouse.dto.DealDto;
 import com.progresssoft.clustereddatawarehouse.entity.Deal;
 import com.progresssoft.clustereddatawarehouse.exception.DealAlreadyExistsException;
+import com.progresssoft.clustereddatawarehouse.exception.FxDealNotFoundException;
 import com.progresssoft.clustereddatawarehouse.exception.SameISOCodeException;
 import com.progresssoft.clustereddatawarehouse.mapper.DealMapper;
 import com.progresssoft.clustereddatawarehouse.repository.DealRepository;
@@ -51,5 +52,20 @@ public class DealServiceImpl implements DealService {
         } else {
             throw new SameISOCodeException("From and To currency codes should not be the same");
         }
+    }
+
+    @Override
+    public APIResponse<DealDto> retrieveFXDeal(String fxDealId) {
+        Deal deal = getDealByDealUniqueId(fxDealId);
+
+        return APIResponse.<DealDto>builder()
+                .message("FX Deal retrieved successfully")
+                .time(LocalDateTime.now())
+                .dto(DealMapper.dealToDealDtoMapper(deal))
+                .build();
+    }
+
+    public Deal getDealByDealUniqueId(String dealUniqueId) {
+        return dealRepository.findByDealUniqueId(dealUniqueId).orElseThrow(() -> new FxDealNotFoundException("Deal with dealUniqueId: " + dealUniqueId + " not found"));
     }
 }
