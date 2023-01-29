@@ -15,8 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.*;
 
 @Scope
 @AllArgsConstructor
@@ -45,6 +44,6 @@ public class DealController {
     @GetMapping(value = "/retrieve/{fxDealId}")
     public ResponseEntity<?> retrieveDeals(@PathVariable String fxDealId) {
         log.info("DealController.retrieveDeals() fxDealId: {}", fxDealId);
-        return new ResponseEntity<>(dealService.retrieveFXDeal(fxDealId), CREATED);
+        return new ResponseEntity<>(dealService.retrieveFXDeal(fxDealId), FOUND);
     }
 }
