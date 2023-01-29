@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.doReturn;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -118,4 +119,24 @@ class DealControllerTest {
                 .andExpect(jsonPath("$.dto").value(new ArrayList<>(List.of("Deal Id is required"))))
                 .andReturn().getResponse();
     }
+
+    @Test
+    void testRetrieveDeals() throws Exception {
+
+        DealDto dealDto = new DealDto(" ","USD", "EUR", BigDecimal.valueOf(50.0));
+
+        final APIResponse<?> apiResponse = new APIResponse<>("message", LocalDateTime.now(), dealDto);
+        doReturn(apiResponse).when(mockDealService).retrieveFXDeal("fxDealId");
+
+        mockMvc.perform(get("/api/v1/deals/retrieve/{fxDealId}", "fxDealId")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isFound())
+                .andExpect(jsonPath("$.message").value("message"))
+                .andExpect(jsonPath("$.dto.dealUniqueId").value(dealDto.getDealUniqueId()))
+                .andExpect(jsonPath("$.dto.fromCurrencyISOCode").value(dealDto.getFromCurrencyISOCode()))
+                .andExpect(jsonPath("$.dto.toCurrencyISOCode").value(dealDto.getToCurrencyISOCode()))
+                .andExpect(jsonPath("$.dto.dealAmount").value(dealDto.getDealAmount()))
+                .andReturn().getResponse();
+    }
+
 }
